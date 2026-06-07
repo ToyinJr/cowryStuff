@@ -33,14 +33,14 @@ const Pictures = () => {
     queryKey: ["pictures"],
     queryFn: async () => {
       try {
-        const res = await fetch(`${apiUrl}/?per_page=8`, {
+        const res = await fetch(`${apiUrl}?query=africa&per_page=20`, {
           headers: {
             Authorization: `Client-ID ${accessKey}`,
           },
         });
         const data = await res.json();
         console.log(data);
-        return data;
+        return data.results;
       } catch (error) {
         console.error(error);
       }
