@@ -1,3 +1,7 @@
+My attempt at the cowrywise developer test
+
+https://docs.google.com/document/d/1h4y2zP5m2yh9A4IA7tzkrJbTxBtzbt5LAXHbd3PqdxE/edit?tab=t.0
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
