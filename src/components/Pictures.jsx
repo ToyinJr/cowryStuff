@@ -7,12 +7,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-
-let apiUrl = import.meta.env.VITE_APIURL;
-let accessKey = import.meta.env.VITE_ACCESSKEY;
+import getPictures from "@/hooks/getPictures";
 
 const Pictures = () => {
-
   const [selected, setSelected] = useState();
   const [altDes, setAltDes] = useState();
 
@@ -26,26 +23,7 @@ const Pictures = () => {
     setAltDes(id);
   };
 
-  let {
-    data: pics,
-    isLoading,
-  } = useQuery({
-    queryKey: ["pictures"],
-    queryFn: async () => {
-      try {
-        const res = await fetch(`${apiUrl}?query=africa&per_page=20`, {
-          headers: {
-            Authorization: `Client-ID ${accessKey}`,
-          },
-        });
-        const data = await res.json();
-        console.log(data);
-        return data.results;
-      } catch (error) {
-        console.error(error);
-      }
-    },
-  });
+  let { data: pics, isLoading } = getPictures();
 
   const skeleton = [
     {
@@ -157,7 +135,10 @@ const Pictures = () => {
           {isLoading
             ? skeleton.map((item) => {
                 return (
-                  <div key={item.id} className="flex w-65 max-sm:w-full flex-col gap-10">
+                  <div
+                    key={item.id}
+                    className="flex w-65 max-sm:w-full flex-col gap-10"
+                  >
                     <div className="relative bg-[#f5f5f5] h-60 w-full p-2">
                       <div className="mt-45 flex flex-col gap-2">
                         <div className="skeleton bg-[#e8e8e8] h-4 w-3/4"></div>
@@ -174,7 +155,7 @@ const Pictures = () => {
                   key={pic.id}
                   onClick={() => {
                     isSelected(pic.urls.full);
-                    isAltDes(pic.alt_description)
+                    isAltDes(pic.alt_description);
                   }}
                 >
                   <Dialog>
@@ -191,12 +172,20 @@ const Pictures = () => {
                         </div>
                       </div>
                     </DialogTrigger>
-                    <DialogContent aria-describedby={undefined} showCloseButton={false} className="sm:max-w-3xl p-0">
-                   <DialogTitle className={`hidden`}></DialogTitle>
-                    <div className="">
-                          <img src={selected} className="h-60 sm:h-120 min-w-full " alt="" />
-                      <p className="m-2 p-2 font-bold text-lg">{altDes}</p>
-                    </div>
+                    <DialogContent
+                      aria-describedby={undefined}
+                      showCloseButton={false}
+                      className="sm:max-w-3xl p-0"
+                    >
+                      <DialogTitle className={`hidden`}></DialogTitle>
+                      <div className="">
+                        <img
+                          src={selected}
+                          className="h-60 sm:h-120 min-w-full "
+                          alt=""
+                        />
+                        <p className="m-2 p-2 font-bold text-lg">{altDes}</p>
+                      </div>
                     </DialogContent>
                   </Dialog>
                 </div>
